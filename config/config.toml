@@ -1,0 +1,9 @@
+[server]
+port = 2525
+read_timeout = 5
+write_timeout = 5
+
+[auth]
+jwt_secret = "ZKBKziWs9KNps6c68LUYhpI8q07136LoM5wRK2nTwK4pwnTbQmUilFDjzuHVFam5iMmQFsHsNN/T18wAuw0UEg=="
+jwt_issuer = "test"
+jwt_expires_at = "5h"
