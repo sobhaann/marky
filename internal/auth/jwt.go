@@ -23,13 +23,13 @@ func NewAuth(env env.Config) *auth {
 	}
 }
 
-func (a *auth) GenerateJWT(userID uuid.UUID) (string, error) {
+func (a *auth) GenerateJWT(userRID uuid.UUID) (string, error) {
 	utcNow := time.Now().UTC()
 	claims := &jwt.RegisteredClaims{
 		Issuer:    a.authConfig.JWTIssuer,
 		IssuedAt:  jwt.NewNumericDate(utcNow),
 		ExpiresAt: jwt.NewNumericDate(utcNow.Add(a.authConfig.JWTExpiresAt)),
-		Subject:   userID.String(),
+		Subject:   userRID.String(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -47,7 +47,7 @@ func (a *auth) ValidateJWT(tokenString string) (uuid.UUID, error) {
 			return nil, errors.New("unexpected signing method for jwt token")
 		}
 
-		return []byte(tokenString), nil
+		return []byte(a.authConfig.JWTSecret), nil
 	})
 	if err != nil {
 		return uuid.Nil, err
@@ -61,12 +61,12 @@ func (a *auth) ValidateJWT(tokenString string) (uuid.UUID, error) {
 	if err != nil {
 		return uuid.Nil, err
 	}
-	userID, err := uuid.Parse(claimsSubject)
+	userRID, err := uuid.Parse(claimsSubject)
 	if err != nil {
 		return uuid.Nil, err
 	}
 
-	return userID, nil
+	return userRID, nil
 }
 
 // TODO: i think this function is to basic
