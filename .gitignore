@@ -1,0 +1,4 @@
+db_password.txt
+makefile
+internal/db
+config/config.toml

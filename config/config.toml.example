@@ -1,0 +1,9 @@
+[server]
+port = 2525
+read_timeout = 5
+write_timeout = 5
+
+[auth]
+jwt_secret = ""
+jwt_issuer = ""
+jwt_expires_at = ""
